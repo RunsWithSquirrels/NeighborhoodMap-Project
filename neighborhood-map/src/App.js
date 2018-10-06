@@ -1,25 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
+import Map from './components/Map';
 
 class App extends Component {
-  getGoogleMaps() {
-    if (!this.googleMapsAdd) {
-      this.googleMapsAdd = new Promise((resolve) => {
-        window.resolveGoogleMapsAdd = () => {
-          resolve(window.google);
-          delete window.resolveGoogleMapsAdd;
-        };
-        const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyC2cqf79ch5dp8cXoXHyYSvFptiaVH7Tps&callback=resolveGoogleMapsPromise`;
-        script.async = true;
-        document.body.appendChild(script);
-      });
-    }
-    return this.googleMapsAdd;
-  }
-
-  componentWillMount() {
-    this.getGoogleMaps();
+  render() {
+    return (
+      <div className="App">
+        <div role="application" aria-hidden="true" id="map">
+          <Map />
+        </div>
+      </div>
+    )
   }
 }
 
@@ -32,4 +23,5 @@ export default App;
 
 
 // Google Maps Key: AIzaSyC2cqf79ch5dp8cXoXHyYSvFptiaVH7Tps
-// Foursquare Key: ZNYVFTLSQ042C0FQVC01CTUBDI3XGXFYS4EXMHTAYJWWRBDX
+// Foursquare Key: ZNYVFTLSQ042C0FQVC01CTUBDI3XGXFYS4EXMHTAYJWWRBDX (client ID)
+// Foursquare Key: QWD10FMGI3FU05FG5GMG5ONI0AJTTR24TP5VZDKSKPGAMXCV (client secret)
