@@ -1,17 +1,29 @@
 import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
-const MyMapComponent = withScriptjs(withGoogleMap((props) =>
-    <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }}>
-        {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />}
-    </GoogleMap>
-))
+const MyMapComponent = withScriptjs(
+    withGoogleMap(props => (
+    <GoogleMap 
+    defaultZoom={8} 
+    zoom={props.zoom} 
+    defaultCenter={{ lat: -34.397, lng: 150.644 }}
+    center={props.center}
+    >
+    {props.markers && 
+    props.markers
+    .filter(marker => marker.isSeen)
+    .map((marker, indx) => 
+    <Marker key={indx} position={{ lat: marker.lat, lng: marker.lng }} />
+    )}
+        </GoogleMap>
+    ))
+);
 
 class Map extends Component {
     render() {
         return (
             <MyMapComponent
-            isMarkerShown
+            {...this.props}
             googleMapURL= "https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyC2cqf79ch5dp8cXoXHyYSvFptiaVH7Tps"
             loadingElement = {< div style = {{ height: `100%` }} />}
             containerElement = {< div style = {{ height: `400px` }} />}
