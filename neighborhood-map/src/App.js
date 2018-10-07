@@ -46,8 +46,8 @@ class App extends Component {
 
   componentDidMount() {
     FourAPI.search({
-      near: 'Austin, TX',
-      query: 'tacos',
+      near: 'San Antonio, TX',
+      query: 'coffee',
       limit: 10 
     }).then(results => {
       const { venues } = results.response;

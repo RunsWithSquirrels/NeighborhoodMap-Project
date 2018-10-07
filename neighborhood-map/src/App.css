@@ -12,6 +12,7 @@ body {
 
 .sideBar {
   width: 25%;
+  overflow-y: scroll;
 }
 
 input#search {
