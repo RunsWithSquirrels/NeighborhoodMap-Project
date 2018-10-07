@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import Map from './components/Map';
 import FourAPI from './API/';
+import SideBar from './components/SideBar';
+// import Nav from './components/Nav';
 
 class App extends Component {
   constructor() {
@@ -10,9 +12,13 @@ class App extends Component {
       venues: [],
       markers: [],
       center: [],
-      zoom: 13
-    };
+      zoom: 13,
+      updateSuperState: object => {
+        this.setState(object);
+      }
+    }
   }
+
   closeOpenMarkers = () => {
     const markers = this.state.markers.map(marker => {
       marker.isOpenInfo = false;
@@ -20,6 +26,7 @@ class App extends Component {
     })
     this.setState({ markers: Object.assign(this.state.markers, markers )});
   };
+
   handleMarkerAction = (marker) => {
     this.closeOpenMarkers();
     marker.isOpenInfo = true;
@@ -32,10 +39,15 @@ class App extends Component {
     });
   };
 
+  handleItemAction = (venue) => {
+    const marker = this.state.markers.find(marker => marker.id === venue.id);
+    this.handleMarkerAction(marker);
+  };
+
   componentDidMount() {
     FourAPI.search({
-      near: "Austin, TX",
-      query: "tacos",
+      near: 'Austin, TX',
+      query: 'tacos',
       limit: 10 
     }).then(results => {
       const { venues } = results.response;
@@ -53,10 +65,12 @@ class App extends Component {
       console.log(results);
     });
   }
+
   render() {
     return (
       <div className="App">
-        <div role="application" aria-hidden="true" id="map">
+        <SideBar {...this.state} handleItemAction={this.handleItemAction}/>
+        <div className="Map" role="application" aria-hidden="true" id="map">
           <Map {...this.state} handleMarkerAction={this.handleMarkerAction}/>
         </div>
       </div>

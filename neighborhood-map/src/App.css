@@ -1,5 +1,40 @@
-.App {
+.App, .Map {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100vh;
+  width: 100vw;
   text-align: center;
+}
+
+body {
+  overflow: hidden;
+}
+
+.sideBar {
+  width: 25%;
+}
+
+input#search {
+  font-size: 1rem;
+  height: 3rem;
+  width: 100%;
+}
+
+.listOfVenues {
+  padding: 1rem;
+}
+
+.venueItem {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  background: purple;
+  color: white;
+  font-size: 1rem;
+  list-style: none;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
 .App-logo {
@@ -29,4 +64,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@media (max-width: 480px) {
+
 }
