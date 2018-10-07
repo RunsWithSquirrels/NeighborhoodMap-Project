@@ -11,8 +11,27 @@ class App extends Component {
       markers: [],
       center: [],
       zoom: 13
-    }
+    };
   }
+  closeOpenMarkers = () => {
+    const markers = this.state.markers.map(marker => {
+      marker.isOpenInfo = false;
+      return marker;
+    })
+    this.setState({ markers: Object.assign(this.state.markers, markers )});
+  };
+  handleMarkerAction = (marker) => {
+    this.closeOpenMarkers();
+    marker.isOpenInfo = true;
+    this.setState({ markers: Object.assign(this.state.markers, marker )});
+    const venue = this.state.venues.find(venue => venue.id === marker.id);
+    FourAPI.getDetails(marker.id).then(resp => {
+      const newVenueLocation = Object.assign(venue, resp.response.venue); 
+      this.setState({ venues: Object.assign(this.state.venues, newVenueLocation) });
+      console.log(newVenueLocation);
+    });
+  };
+
   componentDidMount() {
     FourAPI.search({
       near: "Austin, TX",
@@ -25,8 +44,9 @@ class App extends Component {
         return {
           lat: venue.location.lat,
           lng: venue.location.lng,
-          isOpen: false,
+          isOpenInfo: false,
           isSeen: true,
+          id: venue.id
         }
       });
       this.setState({ venues, center, markers });
@@ -37,7 +57,7 @@ class App extends Component {
     return (
       <div className="App">
         <div role="application" aria-hidden="true" id="map">
-          <Map {...this.state}/>
+          <Map {...this.state} handleMarkerAction={this.handleMarkerAction}/>
         </div>
       </div>
     )
