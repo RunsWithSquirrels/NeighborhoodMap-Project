@@ -34,6 +34,7 @@ class SideBar extends Component {
     render() {
         return(
             <div className="sideBar">
+                <h2>Neighborhood Map</h2>
                 <input type="search" id="search" placeholder="Filter Venue List" onChange={this.handleInputChange}/>
                 <ListOfVenues {...this.props} venues = {this.handleSearchFilter()}
                     handleItemAction={this.props.handleItemAction}/>
