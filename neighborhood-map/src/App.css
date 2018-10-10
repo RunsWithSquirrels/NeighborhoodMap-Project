@@ -11,7 +11,7 @@ body {
 }
 
 .sideBar {
-  width: 25%;
+  width: 30%;
   overflow-y: scroll;
 }
 
@@ -28,7 +28,9 @@ input#search {
 .venueItem {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  padding: 1.5rem;
+  width: 330px;
+  max-width: 100%;
   cursor: pointer;
   margin-top: 1rem;
   background: purple;
@@ -69,4 +71,5 @@ input#search {
 
 @media (max-width: 480px) {
  .listOfVenues {padding: 0px 12px;}
+ .venueItem {padding: 0px 12px;}
 }
