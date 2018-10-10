@@ -1,13 +1,13 @@
+body {
+  overflow: hidden;
+}
+
 .App, .Map {
   display: flex;
   flex-flow: row nowrap;
   height: 100vh;
   width: 100vw;
   text-align: center;
-}
-
-body {
-  overflow: hidden;
 }
 
 .sideBar {
@@ -68,5 +68,5 @@ input#search {
 }
 
 @media (max-width: 480px) {
-
+ .listOfVenues {padding: 0px 12px;}
 }
