@@ -82,4 +82,8 @@ input#search {
 
 @media (max-width: 425px) {
   .venuePhoto {width: 100px; height: 100px;}
+  .venueItem {font-size: 0.75rem;}
+  .icon {height: 20px; width: 20px;}
+  input#search {height: 2rem; font-size:1rem;}
+  .sideBar {max-width: 255px;}
 }
