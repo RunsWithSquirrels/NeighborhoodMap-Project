@@ -3,7 +3,6 @@ import './App.css';
 import Map from './components/Map';
 import FourAPI from './API/';
 import SideBar from './components/SideBar';
-// import Nav from './components/Nav';
 
 class App extends Component {
   constructor() {
@@ -48,7 +47,7 @@ class App extends Component {
     FourAPI.search({
       near: 'San Antonio, TX',
       query: 'coffee',
-      limit: 10 
+      limit: 15 
     }).then(results => {
       const { venues } = results.response;
       const { center} = results.response.geocode.feature.geometry;
