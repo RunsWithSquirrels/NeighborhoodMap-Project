@@ -1,7 +1,7 @@
 const cacheVersion = 1;
 const cacheStatic = `static-cache-v${cacheVersion}`;
 const cacheImages = `cache-of-images-v`;
-const cacheAssorted = `assorited-cache-v`;
+const cacheAssorted = `assorted-cache-v`;
 const allCaches = [
     cacheStatic,
     cacheImages,
@@ -9,7 +9,7 @@ const allCaches = [
 ];
 
 
-function imagesURLs(url) {
+function imagesURLS(url) {
     let img_types = ["jpg", "jpeg", "png", "gif"];
     var images = false;
     for (let type of img_types) {
@@ -18,21 +18,22 @@ function imagesURLs(url) {
     return images;
 }
 
-function storeInCache(cacheName, requestClone, responseClone) {
-    return caches.open(cacheName).then(function (cache) {
+function cacheKeep(cacheName, requestClone, responseClone) {
+    return caches.open(cacheName).then((cache) => {
         return cache.put(requestClone, responseClone)
     });
 }
 
-function isExternalResources(url) {
-    return url.startsWith('http');
+
+function outsideSources(url) {
+   return url.startsWith('http');
 }
 
 
 
-self.addEventListener("install", function (event) {
+self.addEventListener("install", (event) => {
     event.waitUntil(
-        caches.open(cacheStatic).then(function (cache) {
+        caches.open(cacheStatic).then((cache) => {
             console.log("Current Cache: ", cacheStatic);
             return cache.addAll([
                 "/",
@@ -42,12 +43,12 @@ self.addEventListener("install", function (event) {
     );
 });
 
-self.addEventListener("activate", function (event) {
+self.addEventListener("activate", (event) => {
     event.waitUntil(
-        caches.keys().then(function (cacheNames) {
+        caches.keys().then((cacheNames) => {
             console.log("Clearing Old Caches...");
             Promise.all(
-                cacheNames.map(function (cacheName) {
+                cacheNames.map((cacheName) => {
                     if (!allCaches.includes(cacheName)) {
                         console.log(`Deleting: ${cacheName}`);
                         return caches.delete(cacheName);
@@ -58,23 +59,23 @@ self.addEventListener("activate", function (event) {
     );
 });
 
-self.addEventListener("fetch", function (event) {
+self.addEventListener("fetch", (event) => {
     if (event.request.method === "GET") {
         event.respondWith(
-            caches.match(event.request).then(function (result) {
+            caches.match(event.request).then((result) => {
                 if (result) { return result; }
-                var url = new URL(event.request.url);
+                // var url = new URL(event.request.url);
                 try {
-                    return fetch(event.request).then(function (response) {
+                    return fetch(event.request).then((response) => {
+                        let useCache = imagesURLS(event.request.url) ? cacheImages : cacheStatic;
                         // if(url.origin !== location.origin) { useCache = cacheAssorted; }
-                        // else { useCache = isImageURL(event.request.url) ? cacheImages : cacheStatic; }
-                        let useCache = imagesURLs(event.request.url) ? cacheImages : cacheStatic;
-                        storeInCache(useCache, event.request.clone(), response.clone());
+                        // else { useCache = imagesURLS(event.request.url) ? cacheImages : cacheStatic; }
+                        cacheKeep(useCache, event.request.clone(), response.clone());
                         return response;
                     });
                 }
-                catch (e) {
-                    console.log(e);
+                catch (error) {
+                    console.log(error);
                 }
             })
         );
