@@ -18,9 +18,9 @@ function imagesURLS(url) {
     return images;
 }
 
-function cacheKeep(cacheName, requestClone, responseClone) {
-    return caches.open(cacheName).then((cache) => {
-        return cache.put(requestClone, responseClone)
+function cacheKeep(nameOfCache, cloneForRequest, cloneForResponse) {
+    return caches.open(nameOfCache).then((cache) => {
+        return cache.put(cloneForRequest, cloneForResponse)
     });
 }
 
@@ -45,13 +45,13 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
     event.waitUntil(
-        caches.keys().then((cacheNames) => {
+        caches.keys().then((nameOfCaches) => {
             console.log("Clearing Old Caches...");
             Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (!allCaches.includes(cacheName)) {
-                        console.log(`Deleting: ${cacheName}`);
-                        return caches.delete(cacheName);
+                nameOfCaches.map((nameOfCache) => {
+                    if (!allCaches.includes(nameOfCache)) {
+                        console.log(`Deleting: ${nameOfCache}`);
+                        return caches.delete(nameOfCache);
                     }
                 })
             );
@@ -67,10 +67,10 @@ self.addEventListener("fetch", (event) => {
                 // var url = new URL(event.request.url);
                 try {
                     return fetch(event.request).then((response) => {
-                        let useCache = imagesURLS(event.request.url) ? cacheImages : cacheStatic;
-                        // if(url.origin !== location.origin) { useCache = cacheAssorted; }
-                        // else { useCache = imagesURLS(event.request.url) ? cacheImages : cacheStatic; }
-                        cacheKeep(useCache, event.request.clone(), response.clone());
+                        let cacheUse = imagesURLS(event.request.url) ? cacheImages : cacheStatic;
+                        // if(url.origin !== location.origin) { cacheUse = cacheAssorted; }
+                        // else { cacheUse = imagesURLS(event.request.url) ? cacheImages : cacheStatic; }
+                        cacheKeep(cacheUse, event.request.clone(), response.clone());
                         return response;
                     });
                 }
