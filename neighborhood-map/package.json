@@ -13,7 +13,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "run": "npm run build && npx serve -s build"
+    "project": "npm run build && npx serve -s build"
   },
   "eslintConfig": {
     "extends": "react-app"
